@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+  <head>
+    <title>Acessos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <main>
+      <h1>Acessos à aplicação</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Data e hora de acesso - IP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="acessos : ${acessos}">
+            <td th:text="${acessos.key}"></td>
+            <td th:text="${acessos.value}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>
