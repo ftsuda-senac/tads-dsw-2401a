@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Usuários</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <main>
+      <h1 th:if="${usuario.id == null}">Incluir novo usuário</h1>
+      <h1 th:if="${usuario.id != null}">Editar usuário</h1>
+      <form method="post"
+            th:action="${usuario.id != null ? '/usuarios/editar' : '/usuarios/incluir'}"
+            th:object="${usuario}">
+        <input type="hidden" th:if="${usuario.id != null}" th:field="*{id}" />
+        <div>
+          <label>Nome</label>
+          <input type="text" th:field="*{nome}" />
+        </div>
+       <div>
+          <label>E-mail</label>
+          <input type="email" th:field="*{email}" />
+        </div>
+        <div>
+          <label>CPF</label>
+          <input type="text" th:field="*{cpf}" />
+        </div>
+        <div>
+          <label>Senha</label>
+          <input type="password" th:field="*{senha}" />
+        </div>
+        <div>
+          <label>Confirmar senha</label>
+          <input type="password" th:field="*{confirmarSenha}" />
+        </div>
+        <div>
+          <fieldset>
+            <legend>Status</legend>
+            <input type="radio" th:field="*{status}" value="0" id="status0" /> <label for="status0">Inativo</label>
+            <input type="radio" th:field="*{status}" value="1" id="status1" /> <label for="status1">Ativo</label>
+          </fieldset>
+        </div>
+        <div>
+          <fieldset>
+            <legend>Perfil</legend>
+            <input type="radio" th:field="*{perfil}" value="ADMIN" id="perfilAdmin" /> <label for="perfilAdmin">/Admin</label>
+            <input type="radio" th:field="*{perfil}" value="ESTOQUISTA" id="perfilEstoquista" /> <label for="perfilEstoquista">Estoquista</label>
+          </fieldset>
+        </div>
+        <div>
+          <button>Salvar</button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
