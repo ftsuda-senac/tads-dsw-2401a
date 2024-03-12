@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exemplos Javascript</title>
+    <style>
+        .ex1 {
+            color: red;
+        }
+        .ex2 {
+            color: green;
+            background-color: black;
+            font-size: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Exemplos Javascript</h1>
+        <p class="ex1">Texto exemplo 1</p>
+        <p class="ex1">Texto exemplo 2</p>
+        <hr />
+        <button id="btnEx3">Exemplo 3</button>
+        <hr />
+        <div id="ex5"></div>
+        <ul id="ex4"></ul>
+        
+    </main>
+
+    <script>
+        let exemplo1 = document.querySelector('.ex1');
+        exemplo1.style.color = 'blue';
+        
+        let exemplo2 = document.querySelector('.ex1:last-of-type');
+        exemplo2.classList.remove('ex1');
+        exemplo2.classList.add('ex2');
+        
+        document.getElementById('btnEx3').onclick = function() {
+          let nome = prompt('Digite seu nome');
+          if (!nome) {
+            nome = 'Visitante';
+          }
+          alert('Mensagem do Exemplo 3\nBem vindo ' + nome);
+        };
+        
+        document.getElementById('ex5').innerHTML = '<h2>Exemplo 5</h2><p>Texto incluido via Javascript</p>';
+        
+        for (let i = 1; i <= 1000; i++) {
+          let exemplo4 = document.getElementById('ex4');
+          exemplo4.insertAdjacentHTML('beforeend','<li><h3>Item ' + i + '</h3><p>Bla bla bla</p></li>');
+        }
+        
+        document.querySelectorAll('li:nth-of-type(2n)').forEach(elItem => elItem.remove());
+        
+    </script>
+</body>
+</html>
