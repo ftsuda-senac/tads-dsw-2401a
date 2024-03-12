@@ -6,6 +6,7 @@ package br.senac.tads.dsw.exemplospringboot;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,17 +23,28 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // @formatter:off
-        http.headers()
-                .cacheControl().disable() // Desabilita controle de cache
-                .frameOptions().sameOrigin() // evita problema ao abrir console do H2
-                .and().csrf().disable()
-                .authorizeRequests()
-                .requestMatchers("/favicon/**", "/webjars/**", "/css/**", "/js/**",
-                        "/font/**", "/", "/index.html", "/h2-console/**").permitAll()
-                .requestMatchers("/usuarios/incluir").permitAll()
-                .anyRequest().authenticated()
-               .and()
-                .formLogin();
+    	http.headers(headers -> headers.cacheControl(cc -> cc.disable()).frameOptions(fo -> fo.sameOrigin()))
+    		.csrf(csrf -> csrf.disable())
+    		.authorizeHttpRequests(auth -> {
+    			auth
+	    			.requestMatchers("/favicon/**", "/webjars/**", "/css/**", "/js/**",
+	    					"/font/**", "/", "/index.html", "/h2-console/**").permitAll()
+	    			.requestMatchers("/usuarios/incluir").permitAll()
+	    			.anyRequest().authenticated();
+    		})
+    		.formLogin(Customizer.withDefaults());
+    	
+//        http.headers()
+//                .cacheControl().disable() // Desabilita controle de cache
+//                .frameOptions().sameOrigin() // evita problema ao abrir console do H2
+//                .and().csrf().disable()
+//                .authorizeRequests()
+//                .requestMatchers("/favicon/**", "/webjars/**", "/css/**", "/js/**",
+//                        "/font/**", "/", "/index.html", "/h2-console/**").permitAll()
+//                .requestMatchers("/usuarios/incluir").permitAll()
+//                .anyRequest().authenticated()
+//               .and()
+//                .formLogin();
 
         // @formatter:on
         return http.build();

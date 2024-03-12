@@ -10,7 +10,7 @@
       <h1 th:if="${usuario.id == null}">Incluir novo usuário</h1>
       <h1 th:if="${usuario.id != null}">Editar usuário</h1>
       <form method="post"
-            th:action="${usuario.id != null ? '/usuarios/editar' : '/usuarios/incluir'}"
+            th:action="${usuario.id != null} ? @{/usuarios/editar/{id}(id=${usuario.id})} : @{/usuarios/incluir}"
             th:object="${usuario}">
         <input type="hidden" th:if="${usuario.id != null}" th:field="*{id}" />
         <div>
@@ -43,7 +43,7 @@
         <div>
           <fieldset>
             <legend>Perfil</legend>
-            <input type="radio" th:field="*{perfil}" value="ADMIN" id="perfilAdmin" /> <label for="perfilAdmin">/Admin</label>
+            <input type="radio" th:field="*{perfil}" value="ADMIN" id="perfilAdmin" /> <label for="perfilAdmin">Admin</label>
             <input type="radio" th:field="*{perfil}" value="ESTOQUISTA" id="perfilEstoquista" /> <label for="perfilEstoquista">Estoquista</label>
           </fieldset>
         </div>
