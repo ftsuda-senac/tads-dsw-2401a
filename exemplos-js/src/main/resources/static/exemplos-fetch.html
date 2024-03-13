@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <main>
+      <h1>Exemplos Fetch API</h1>
+      <button id="btnExecutar">Executar</button>
+      <div id="resultado"></div>
+    </main>
+    <script>
+      async function obterDados() {
+        const respHttp = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+        if (!respHttp.ok) {
+          alert('Erro na requisição assíncrona');
+          return;
+        }
+        const dadosResposta = await respHttp.json();
+        
+        document.getElementById('resultado').insertAdjacentHTML('beforeend',
+        `<div class="item">
+            <h2>${dadosResposta.title} (ID: ${dadosResposta.id})</h2>
+            <p>${dadosResposta.body}</p>
+            <p>User ID: ${dadosResposta.userId}</p>
+          </div>
+        `);
+      }
+      
+      document.getElementById('btnExecutar').onclick = obterDados;
+      
+    </script>
+  </body>
+</html>

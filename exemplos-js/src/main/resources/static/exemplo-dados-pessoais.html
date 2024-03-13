@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <main id="resultado">
+    </main>
+    <script>
+      async function obterDados() {
+        const respHttp = await fetch('http://localhost:8080/dados-pessoais', {
+          mode: "cors"
+        });
+        if (!respHttp.ok) {
+          alert('Erro na requisição assíncrona');
+          return;
+        }
+        const dados = await respHttp.json();
+        
+        document.getElementById('resultado').insertAdjacentHTML('beforeend',
+        `<h1>${dados.nome}</h1>
+         <p>Data nascimento: ${dados.dataNascimento}</p>
+         <p>Telefone: ${dados.telefone}</p>
+         <p>E-mail: ${dados.email}</p>
+        `);
+      }
+      
+      obterDados();
+      
+    </script>
+  </body>
+</html>
