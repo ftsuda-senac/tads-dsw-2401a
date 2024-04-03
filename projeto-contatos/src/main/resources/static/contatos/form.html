@@ -27,14 +27,78 @@
             <label for="txtDataNascimento" class="form-label">Data de nascimento</label>
             <input type="date" class="form-control" id="txtDataNascimento" name="dataNascimento" placeholder="Telefone de contato">
           </div>
-          <a href="">Voltar</a>
+          <a href="lista.html">Voltar</a>
           <button>Salvar</button>
         </form>
-
       </div>
     </div>
   </main>
   <script>
+    function obterParametroId() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const id = urlParams.get('id');
+      return id;
+    }
+    
+    async function salvar(evt) {
+      evt.preventDefault(); // evitar comportamento do submit
+      const formulario = evt.target; // Referência ao form que disparou submit (equivale a document.getElementById('frmCadastro'))
+      const dados = {
+        nome: formulario.nome.value,
+        email: formulario.email.value,
+        telefone: formulario.telefone.value,
+        dataNascimento: formulario.dataNascimento.value
+      };
+      
+      console.log('conteudo dados: ' + JSON.stringify(dados));
+      
+      const id = obterParametroId();
+      let url = 'http://localhost:8080/contatos';
+      let method = 'POST';
+      if (id) {
+        url = url + '/' + id;
+        method = 'PUT';
+      }
+
+      const httpResp = await fetch(url, {
+        method: method,
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+      });
+      
+      if (!httpResp.ok) {
+        alert('Erro ao salvar dados');
+        return;
+      }
+      alert('Dados gravados com sucesso\nLocation: ' + httpResp.headers['location']);
+    }
+    
+    document.getElementById('frmCadastro').onsubmit = salvar;
+    
+    async function carregarDados() {
+      const id = obterParametroId();
+      if (!id) {
+        return;
+      }
+      const respHttp = await fetch('http://localhost:8080/contatos/' + id);
+      if (!respHttp.ok) {
+        alert('Erro na requisição assíncrona');
+        return;
+      }
+      const dados = await respHttp.json();
+      const formulario = document.getElementById('frmCadastro');
+      formulario.nome.value = dados.nome;
+      formulario.email.value = dados.email;
+      formulario.telefone.value = dados.telefone;
+      formulario.dataNascimento.value = dados.dataNascimento;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      carregarDados();
+    });
 
   </script>
 </body>

@@ -1,10 +1,12 @@
 package br.senac.tads.dsw.projetocontatos;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,15 +16,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/contatos")
+@CrossOrigin(origins = "*")
 public class ContatoController {
     
     @Autowired
     private ContatoService service;
     
     // @GetMapping("/listar")
+    /**
+     * Listagem de contatos
+     * Boas práticas - sempre retornar cod 200, se  nao houver
+     * conteúdos retornar uma lista vazia
+     * 
+     * @return 
+     */
     @GetMapping
     public List<Contato> listar() {
         return service.findAll();
@@ -55,8 +66,13 @@ public class ContatoController {
     
     @PostMapping
     public ResponseEntity<?> incluir(@RequestBody Contato contato) {
+        if (contato.getNome() == null || contato.getNome().isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
         service.incluir(contato);
-        return ResponseEntity.ok().build();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(contato.getId()).toUri();
+        return ResponseEntity.created(location).body(contato);
     }
     
     @PutMapping("/{id}")
@@ -76,7 +92,7 @@ public class ContatoController {
         service.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "ID " + id + " não encontrado"));
         service.excluir(id);
-         return ResponseEntity.ok().build();
+         return ResponseEntity.noContent().build();
     }
     
 }

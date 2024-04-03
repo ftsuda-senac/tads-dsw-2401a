@@ -22,43 +22,84 @@
             </tr>
           </thead>
           <tbody id="dados">
-            <tr>
-              <td>1</td>
-              <td>Fulano da Silva</td>
-              <td>fulano@email.com.br</td>
-              <td>(11) 98765-1234</td>
-              <td>
-                <a href="">Alterar</a>
-                <button id="btnremover1">Remover</button>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Ciclano de Souza</td>
-              <td>ciclano@email.com.br</td>
-              <td>(11) 99001-3344</td>
-              <td>
-                <a href="">Alterar</a>
-                <button id="btnremover2">Remover</button>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Beltrana dos Santos</td>
-              <td>beltrana@email.com.br</td>
-              <td>(11) 91028-5432</td>
-              <td>
-                <a href="">Alterar</a>
-                <button id="btnremover3">Remover</button>
-              </td>
-            </tr>
           </tbody>
         </table>
-        <a href="">Incluir</a>
+        <a href="form.html" id="telaform">Incluir</a>
+        <button id="teste">Clicar</button>
       </div>
     </div>
   </main>
   <script>
+    async function carregarDados() {
+        const respHttp = await fetch('http://localhost:8080/contatos');
+        if (!respHttp.ok) {
+          alert('Erro na requisição assíncrona');
+          return;
+        }
+        const dadosArray = await respHttp.json();
+        
+        // Limpar area onde os contatos serão colocados na tabela
+        document.getElementById('dados').innerHTML = '';
+        
+        for (let contato of dadosArray) {
+          document.getElementById('dados').insertAdjacentHTML('beforeend',
+          `
+          <tr>
+              <td>${contato.id}</td>
+              <td>${contato.nome}</td>
+              <td>${contato.email}</td>
+              <td>${contato.telefone}</td>
+              <td>
+                <a href="form.html?id=${contato.id}">Alterar</a>
+                <button id="btnremover${contato.id}" class="btnremover" data-id-contato="${contato.id}">Remover</button>
+              </td>
+            </tr>
+          `);
+        }
+        
+      // Associar clique do botão com função remover
+      // Colocando aqui pois os botões não existem no DOMContentLoaded
+      document.querySelectorAll('.btnremover').forEach(btn => {
+        btn.onclick = remover;
+      });
+    }
+    
+    async function remover(evt) {
+      let confirmacao = confirm('Deseja remover o contato?');
+      if (!confirmacao) {
+        return;
+      }
+      const btn = evt.target;
+      const id = btn.dataset.idContato; // OBS: No Javascript, converter o kebak-case para camelCase (id-contato para idContato)
+      
+      if (!id) {
+        return;
+      }
+      
+      const httpResp = await fetch('http://localhost:8080/contatos/' + id, {
+        method: 'DELETE'
+      });
+      if (!httpResp.ok) {
+        alert('Erro ao excluir dados');
+        return;
+      }
+      alert('Contato excluido com sucesso');
+      carregarDados();
+      
+    }
+    
+    
+    // DOMContentLoaded é evento que ocorre quando navegador carrega HTML em memória
+    document.addEventListener('DOMContentLoaded', function() {
+      carregarDados();
+    });
+    
+    document.getElementById('teste').onclick = carregarDados;
+    
+//    document.getElementById('telaform').onclick = function(evt) {
+//      evt.preventDefault();
+//      window.location.href = 'form.html';
+//    }
 
   </script>
 </body>
