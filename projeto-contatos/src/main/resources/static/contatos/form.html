@@ -13,19 +13,26 @@
         <form id="frmCadastro">
           <div class="mb-3">
             <label for="txtNome" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="txtNome" name="nome" placeholder="Nome completo">
+            <input type="text" class="form-control" id="txtNome" name="nome"
+                   placeholder="Nome completo"
+                   maxlength="100" required />
           </div>
           <div class="mb-3">
             <label for="txtEmail" class="form-label">E-mail</label>
-            <input type="email" class="form-control" id="txtEmail" name="email" placeholder="E-mail válido">
+            <input type="email" class="form-control" id="txtEmail" name="email"
+                   placeholder="E-mail válido"
+                   maxlength="100" required />
           </div>
           <div class="mb-3">
             <label for="txtTelefone" class="form-label">Telefone</label>
-            <input type="text" class="form-control" id="txtTelefone" name="telefone" placeholder="Telefone de contato">
+            <input type="text" class="form-control" id="txtTelefone" name="telefone"
+                   placeholder="Telefone de contato (11) 99999-1234"
+                   maxlength="16" />
           </div>
           <div class="mb-3">
             <label for="txtDataNascimento" class="form-label">Data de nascimento</label>
-            <input type="date" class="form-control" id="txtDataNascimento" name="dataNascimento">
+            <input type="date" class="form-control" id="txtDataNascimento" name="dataNascimento"
+                   max="2024-04-09" />
           </div>
           <a href="lista.html">Voltar</a>
           <button>Salvar</button>
