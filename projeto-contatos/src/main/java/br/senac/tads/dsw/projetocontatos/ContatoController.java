@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/contatos")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Evitar problema de CORS
 public class ContatoController {
     
     @Autowired
@@ -32,10 +33,11 @@ public class ContatoController {
      * Boas práticas - sempre retornar cod 200, se  nao houver
      * conteúdos retornar uma lista vazia
      * 
+     * @param ordenacao
      * @return 
      */
     @GetMapping
-    public List<Contato> listar() {
+    public List<Contato> listar(@RequestParam(value = "ordem", defaultValue = "cre") String ordenacao) {
         return service.findAll();
     }
     

@@ -22,13 +22,16 @@ public class ContatoService {
     
     public ContatoService() {
         mapContatos = new LinkedHashMap<>();
-        mapContatos.put(++sequenciaIds, new Contato(1, "Fulano da Silva", "(11) 98765-1234",
+        int id = ++sequenciaIds;
+        mapContatos.put(id, new Contato(id, "Fulano da Silva", "(11) 98765-1234",
                         "fulano@email.com.br", LocalDate.parse("2000-10-20"), 
                         Collections.emptyList()));
-        mapContatos.put(++sequenciaIds, new Contato(2, "Ciclano de Souza", "(11) 99001-3344", 
+        id = ++sequenciaIds;
+        mapContatos.put(id, new Contato(id, "Ciclano de Souza", "(11) 99001-3344", 
                         "ciclano@email.com.br", LocalDate.parse("1999-05-16"), 
                         Collections.emptyList()));
-        mapContatos.put(++sequenciaIds, new Contato(3, "Beltrana dos Santos", "(11) 91028-5432", 
+        id = ++sequenciaIds;
+        mapContatos.put(id, new Contato(id, "Beltrana dos Santos", "(11) 91028-5432", 
                         "beltrana@email.com.br", LocalDate.parse("2001-07-04"), 
                         Collections.emptyList()));
     }
