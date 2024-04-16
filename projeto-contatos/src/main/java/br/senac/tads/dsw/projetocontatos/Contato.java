@@ -1,5 +1,9 @@
 package br.senac.tads.dsw.projetocontatos;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -7,12 +11,19 @@ public class Contato {
 
     private Integer id;
 
+    @NotBlank(message = "Preencha seu nome seu animal")
+    @Size(min = 1, max = 100)
     private String nome;
 
+    @Size(min = 0, max = 16)
     private String telefone;
 
+    @NotBlank
+    @Size(min = 3, max = 100)
+    @Email
     private String email;
 
+    @PastOrPresent
     private LocalDate dataNascimento;
 
     private List<String> fotos;

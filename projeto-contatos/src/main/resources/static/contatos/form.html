@@ -4,35 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gerenciamento de contatos</title>
+  <style>
+    .mensagemErro {
+        display: none;
+        color: #c0392b;
+        font-size: 1.2rem;
+    }
+    .mensagemErro.ativo {
+        display: initial;
+    }
+  </style>
 </head>
 <body>
   <main class="container">
     <div class="row">
       <div class="col">
         <h1>Contatos</h1>
-        <form id="frmCadastro">
+        <form id="frmCadastro" novalidate>
           <div class="mb-3">
             <label for="txtNome" class="form-label">Nome</label>
             <input type="text" class="form-control" id="txtNome" name="nome"
                    placeholder="Nome completo"
                    maxlength="100" required />
+            <span class="mensagemErro"></span>
           </div>
           <div class="mb-3">
             <label for="txtEmail" class="form-label">E-mail</label>
             <input type="email" class="form-control" id="txtEmail" name="email"
                    placeholder="E-mail válido"
                    maxlength="100" required />
+            <span class="mensagemErro"></span>
           </div>
           <div class="mb-3">
             <label for="txtTelefone" class="form-label">Telefone</label>
             <input type="text" class="form-control" id="txtTelefone" name="telefone"
                    placeholder="Telefone de contato (11) 99999-1234"
                    maxlength="16" />
+            <span class="mensagemErro"></span>
           </div>
           <div class="mb-3">
             <label for="txtDataNascimento" class="form-label">Data de nascimento</label>
-            <input type="date" class="form-control" id="txtDataNascimento" name="dataNascimento"
-                   max="2024-04-09" />
+            <input type="date" class="form-control" id="txtDataNascimento" name="dataNascimento" />
+            <span class="mensagemErro"></span>
           </div>
           <a href="lista.html">Voltar</a>
           <button>Salvar</button>
@@ -75,9 +88,32 @@
         },
         body: JSON.stringify(dados)
       });
+      // Limpar mensagens de erro atuais
+      document.querySelectorAll('input ~ span').forEach((el) => {
+        el.innerHTML = '';
+        el.classList.remove('ativo');
+      });
       
       if (!httpResp.ok) {
-        alert('Erro ao salvar dados');
+        if (httpResp.status === 400) {
+          const dadosErro = await httpResp.json();
+          if (dadosErro && dadosErro.errors && dadosErro.errors.length > 0) {
+            for (const erro of dadosErro.errors) {
+              const mensagemErro = erro.defaultMessage;
+              const nomeCampo = erro.field;
+              // alert('Erro no campo ' + nomeCampo + ': ' + mensagemErro);
+              const seletorCss = '[name="' + nomeCampo + '"] ~ span';
+              const elSpanErro = document.querySelector(seletorCss);
+              if (elSpanErro) {
+                elSpanErro.classList.add('ativo');
+                elSpanErro.insertAdjacentHTML('beforeend', mensagemErro + ', ');
+              }
+            }
+          }
+          return;
+        }
+        // Mensagem de erro genérica
+        alert('Erro na requisição assíncrona');
         return;
       }
       alert('Dados gravados com sucesso\nLocation: ' + httpResp.headers['location']);
@@ -106,6 +142,10 @@
     document.addEventListener('DOMContentLoaded', function() {
       carregarDados();
     });
+    
+    // Setar data de nascimento máxima para o dia atual
+    document.getElementById('txtDataNascimento').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000)
+        .toISOString().substring(0, 10);
 
   </script>
 </body>

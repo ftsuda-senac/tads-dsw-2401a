@@ -1,5 +1,6 @@
 package br.senac.tads.dsw.projetocontatos;
 
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +68,7 @@ public class ContatoController {
     }
     
     @PostMapping
-    public ResponseEntity<?> incluir(@RequestBody Contato contato) {
+    public ResponseEntity<?> incluir(@RequestBody @Valid Contato contato) {
         if (contato.getNome() == null || contato.getNome().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
@@ -79,7 +80,7 @@ public class ContatoController {
     
     @PutMapping("/{id}")
     public ResponseEntity<?> alterar(@PathVariable("id") int id,
-            @RequestBody Contato contato) {
+            @RequestBody @Valid Contato contato) {
         // Verifica se ID existe
         service.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "ID " + id + " não encontrado"));
