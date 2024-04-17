@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
+@UmMeioContato
 public class Contato {
 
     private Integer id;
@@ -18,8 +19,7 @@ public class Contato {
     @Size(min = 0, max = 16)
     private String telefone;
 
-    @NotBlank
-    @Size(min = 3, max = 100)
+    @Size(min = 0, max = 100)
     @Email
     private String email;
 
