@@ -7,10 +7,10 @@ package br.senac.tads.dsw.projetocontatos;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class UmMeioContatoValidator implements ConstraintValidator<UmMeioContato, Contato> {
+public class UmMeioContatoValidator implements ConstraintValidator<UmMeioContato, ContatoDto> {
 
     @Override
-    public boolean isValid(Contato contato, ConstraintValidatorContext cvc) {
+    public boolean isValid(ContatoDto contato, ConstraintValidatorContext cvc) {
         if ((contato.getEmail() == null || contato.getEmail().isBlank()) &&
                 (contato.getTelefone() == null || contato.getTelefone().isBlank())) {
             return false;

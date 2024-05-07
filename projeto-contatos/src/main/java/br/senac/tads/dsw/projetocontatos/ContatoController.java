@@ -38,14 +38,14 @@ public class ContatoController {
      * @return 
      */
     @GetMapping
-    public List<Contato> listar(@RequestParam(value = "ordem", defaultValue = "cre") String ordenacao) {
+    public List<ContatoDto> listar(@RequestParam(value = "ordem", defaultValue = "cre") String ordenacao) {
         return service.findAll();
     }
     
 
     // @GetMapping("/visualizar/{id}")
     @GetMapping("/{id}")
-    public Contato visualizar(@PathVariable("id") int id) {
+    public ContatoDto visualizar(@PathVariable("id") int id) {
         // *** Versão sem Optional
 //        Contato c = service.findByIdOriginal(id);
 //        if (c == null) {
@@ -68,7 +68,7 @@ public class ContatoController {
     }
     
     @PostMapping
-    public ResponseEntity<?> incluir(@RequestBody @Valid Contato contato) {
+    public ResponseEntity<?> incluir(@RequestBody @Valid ContatoDto contato) {
         if (contato.getNome() == null || contato.getNome().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
@@ -80,7 +80,7 @@ public class ContatoController {
     
     @PutMapping("/{id}")
     public ResponseEntity<?> alterar(@PathVariable("id") int id,
-            @RequestBody @Valid Contato contato) {
+            @RequestBody @Valid ContatoDto contato) {
         // Verifica se ID existe
         service.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "ID " + id + " não encontrado"));

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @UmMeioContato
-public class Contato {
+public class ContatoDto {
 
     private Integer id;
 
@@ -28,10 +28,10 @@ public class Contato {
 
     private List<String> fotos;
 
-    public Contato() {
+    public ContatoDto() {
     }
 
-    public Contato(Integer id, String nome, String telefone, String email, LocalDate dataNascimento, List<String> fotos) {
+    public ContatoDto(Integer id, String nome, String telefone, String email, LocalDate dataNascimento, List<String> fotos) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
