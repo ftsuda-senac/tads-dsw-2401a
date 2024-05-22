@@ -27,18 +27,24 @@ public class ProjetoContatosApplication {
         if (usuarioRepository.count() == 0) {
             Usuario u = new Usuario();
             u.setUsername("bryan");
+            u.setNome("Bryan Santos");
+            u.setEmail("bryan@email.com.br");
             u.setHashSenha("{noop}Abcd1234");
             u.setPermissoes(Set.of(new Permissao("OPERADOR")));
             usuarioRepository.save(u);
             
             u = new Usuario();
             u.setUsername("mika");
+            u.setNome("Mika Silva");
+            u.setEmail("mika@email.com.br");
             u.setHashSenha("{noop}Abcd1234");
             u.setPermissoes(Set.of(new Permissao("ADMIN")));
             usuarioRepository.save(u);
             
             u = new Usuario();
             u.setUsername("ryu");
+            u.setNome("Ryu de Souza");
+            u.setEmail("ryu@email.com.br");
             u.setHashSenha("{noop}Abcd1234");
             u.setPermissoes(Set.of(new Permissao("DEUS")));
             usuarioRepository.save(u);

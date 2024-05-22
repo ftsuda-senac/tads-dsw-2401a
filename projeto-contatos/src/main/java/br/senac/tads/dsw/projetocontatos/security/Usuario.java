@@ -19,18 +19,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 public class Usuario implements UserDetails {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     @Column(nullable = false, unique = true)
     private String username;
-    
+
+    @Column(length = 100)
     private String nome;
-    
+
+    @Column(length = 100)
+    private String email;
+
     private String hashSenha;
-    
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "usuario_permissao",
             joinColumns = @JoinColumn(name = "usuario_id"),
@@ -45,20 +49,28 @@ public class Usuario implements UserDetails {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getHashSenha() {
@@ -107,5 +119,5 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    
+
 }
